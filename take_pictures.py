@@ -24,10 +24,9 @@ def take_multiple_pictures(save_path):
         take_picture(save_path + str(i) + ".jpg")
         i+=1
         print("Picture taken")
-
     cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
-    take_multiple_pictures("calibration_images/image_")
+    take_multiple_pictures("vision-project/calibration_images/")
     
