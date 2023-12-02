@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 from collections import deque
-import time
 from picamera2 import Picamera2
 
 def detect_dice(color, picam):
@@ -19,8 +18,8 @@ def detect_dice(color, picam):
         frame = picam.capture_array()
 
         # Convert the frame to BGR format (OpenCV uses BGR)
-        im = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-
+        #  im = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        im = frame
         # Convert the frame to HSV color space for better color segmentation
         hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
 
@@ -65,8 +64,8 @@ def detect_dice(color, picam):
         keypoints = detector.detect(result)
 
         im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0, 0, 255),
-                                                cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-        
+                                              cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+
         cv2.imshow("Dice Reader", im_with_keypoints)
 
         if counter % 10 == 0:
@@ -80,7 +79,7 @@ def detect_dice(color, picam):
                 msg = f"{display[-1]}\n****"
                 print(msg)
                 return display[-1]
-            
+
         counter += 1
 
         if cv2.waitKey(1) & 0xff == 27:
@@ -88,42 +87,7 @@ def detect_dice(color, picam):
 
     cv2.destroyAllWindows()
 
-def pattern_test(picam):
-    # Example usage:
-    color_to_detect = "red"  # Change this to the desired color ("blue", "green", "yellow", "red")
-    result = detect_dice(color_to_detect, picam)
-    print(f"Number of pips detected on {color_to_detect} dice: {result}")
-    if result == 2:
-        color_to_detect = "yellow"  # Change this to the desired color ("blue", "green", "yellow", "red")
-        result = detect_dice(color_to_detect, picam)
-        print(f"Number of pips detected on {color_to_detect} dice: {result}")
-        if result == 6:
-            color_to_detect = "green"
-            result = detect_dice(color_to_detect, picam)
-            print(f"Number of pips detected on {color_to_detect} dice: {result}")
-            if result == 6:
-                color_to_detect = "blue"
-                result = detect_dice(color_to_detect, picam)
-                print(f"Number of pips detected on {color_to_detect} dice: {result}")
-                if result == 5:
-                    print("You passed the test!")
-                else:
-                    print("You failed the test!")
-                    print("Restarting test...")
-                    pattern_test(picam)
-            else:
-                print("You failed the test!")
-                print("Restarting test...")
-                pattern_test(picam)
-        else:
-            print("You failed the test!")
-            print("Restarting test...")
-            pattern_test(picam)
-    else:
-        print("You failed the test!")
-        print("Restarting test...")
-        pattern_test(picam)
-
+# Example usage:
 if __name__ == "__main__":
     picam = Picamera2()
     picam.preview_configuration.main.size = (640,480) #(1280, 720) Adjust this to the desired resolution
@@ -131,5 +95,19 @@ if __name__ == "__main__":
     picam.preview_configuration.align()
     picam.configure("preview")
     picam.start()
-    
-    pattern_test(picam)
+
+    color_to_detect = "red"  # Change this to the desired color ("blue", "green", "yellow", "red")
+    result = detect_dice(color_to_detect, picam)
+    print(f"Number of pips detected on {color_to_detect} dice: {result}")
+
+    color_to_detect = "yellow"  # Change this to the desired color ("blue", "green", "yellow", "red")
+    result = detect_dice(color_to_detect, picam)
+    print(f"Number of pips detected on {color_to_detect} dice: {result}")
+
+    color_to_detect = "green"  # Change this to the desired color ("blue", "green", "yellow", "red")
+    result = detect_dice(color_to_detect, picam)
+    print(f"Number of pips detected on {color_to_detect} dice: {result}")
+
+    color_to_detect = "blue"  # Change this to the desired color ("blue", "green", "yellow", "red")
+    result = detect_dice(color_to_detect, picam)
+    print(f"Number of pips detected on {color_to_detect} dice: {result}")
