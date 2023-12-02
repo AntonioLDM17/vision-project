@@ -1,4 +1,4 @@
-import cv2
+"""import cv2
 from picamera2 import Picamera2
 
 picam = Picamera2()
@@ -24,9 +24,31 @@ def take_multiple_pictures(save_path):
         take_picture(save_path + str(i) + ".jpg")
         i+=1
         print("Picture taken")
+
     cv2.destroyAllWindows()
+"""
+import cv2
+import time
+from picamera2 import Picamera2
 
+picam = Picamera2()
+picam.preview_configuration.main.size = (1280, 720)
+picam.preview_configuration.main.format = "RGB888"
+picam.preview_configuration.align()
+picam.configure("preview")
+picam.start()
 
+def take_picture(save_path):
+    frame = picam.capture_array()
+    cv2.imwrite(save_path, frame)
+    print("Picture taken")
+
+def take_multiple_pictures(save_path, interval_seconds=3, num_pictures=5):
+    for i in range(num_pictures):
+        take_picture(save_path + str(i) + ".jpg")
+        time.sleep(interval_seconds)
+
+    cv2.destroyAllWindows()
 if __name__ == "__main__":
-    take_multiple_pictures("vision-project/calibration_images/")
+    take_multiple_pictures("calibration_images/image_")
     
