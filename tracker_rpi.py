@@ -7,16 +7,19 @@ from collections import deque
 from picamera2 import Picamera2
 
 class ObjectTracker:
-    def __init__(self, memory_size=64, video_source=None, target_color='red', min_size=10):
+    def __init__(self, memory_size=64, video_source=None, target_color='red', min_size=10, main=False, picam=None):
         self.memory_size = memory_size
         self.video_source = video_source
         self.target_color = target_color
         self.min_size = min_size
         self.memory = deque(maxlen=self.memory_size)
-        self.initialize_camera()
+        self.main = main
+        self.picam = picam
+        self.initialize_camera(main, picam)
 
-    def initialize_camera(self):
-        if not self.video_source:
+
+    def initialize_camera(self, main, picam):
+        if not self.video_source and main==False:
             # Use Raspberry Pi camera
             self.camera = Picamera2()
             self.camera.preview_configuration.main.size = (640, 480)
@@ -25,6 +28,11 @@ class ObjectTracker:
             self.camera.configure("preview")
             self.camera.start()
             time.sleep(2.0)
+        elif not self.video_source and main==True:
+           #The camera is already initialized in the main
+           # Use Raspberry Pi camera
+            self.camera = picam
+            
 
     def capture_frame(self):
         frame = self.camera.capture_array()
@@ -127,15 +135,15 @@ class ObjectTracker:
     def __del__(self):
         self.close_camera()
 
-def tracking_main(color_to_track):
+def tracking_main(color_to_track, main, picam):
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--memory", type=int, default=64, help="maximum memory size")
     parser.add_argument("-t", "--target-color", type=str, default=color_to_track, help="color to track")
     parser.add_argument("-s", "--min-size", type=int, default=10, help="minimum size of the object to track")
     arguments = vars(parser.parse_args())
 
-    tracker = ObjectTracker(arguments['memory'], None, arguments['target_color'], arguments['min_size'])
+    tracker = ObjectTracker(arguments['memory'], None, arguments['target_color'], arguments['min_size'], main=main, picam=picam)
     tracker.track()
 
 if __name__ == "__main__":
-    tracking_main(color_to_track="green") # Change this to the color you want to track ("blue", "green", "yellow", "red", "purple")
+    tracking_main(color_to_track="green", main = False, picam=None) # Change this to the color you want to track ("blue", "green", "yellow", "red", "purple")

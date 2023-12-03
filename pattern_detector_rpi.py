@@ -19,7 +19,8 @@ def detect_dice(color, picam):
         frame = picam.capture_array()
 
         # Convert the frame to BGR format (OpenCV uses BGR)
-        im = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        # im = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        im = frame
 
         # Convert the frame to HSV color space for better color segmentation
         hsv = cv2.cvtColor(im, cv2.COLOR_BGR2HSV)
@@ -88,7 +89,7 @@ def detect_dice(color, picam):
 
     cv2.destroyAllWindows()
 
-def pattern_test(picam):
+def pattern_test_0(picam):
     # Example usage:
     color_to_detect = "red"  # Change this to the desired color ("blue", "green", "yellow", "red")
     result = detect_dice(color_to_detect, picam)
@@ -111,19 +112,23 @@ def pattern_test(picam):
                 else:
                     print("You failed the test!")
                     print("Restarting test...")
-                    pattern_test(picam)
+                    pattern_test_0(picam)
             else:
                 print("You failed the test!")
                 print("Restarting test...")
-                pattern_test(picam)
+                pattern_test_0(picam)
         else:
             print("You failed the test!")
             print("Restarting test...")
-            pattern_test(picam)
+            pattern_test_0(picam)
     else:
         print("You failed the test!")
         print("Restarting test...")
-        pattern_test(picam)
+        pattern_test_0(picam)
+
+def pattern_test(picam):
+
+    pattern_test_0(picam)
 
 if __name__ == "__main__":
     picam = Picamera2()
@@ -132,5 +137,5 @@ if __name__ == "__main__":
     picam.preview_configuration.align()
     picam.configure("preview")
     picam.start()
-    
     pattern_test(picam)
+    picam.stop()
