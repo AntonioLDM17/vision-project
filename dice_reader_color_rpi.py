@@ -88,7 +88,7 @@ def detect_dice(color, picam):
     cv2.destroyAllWindows()
 
 # Example usage:
-if __name__ == "__main__":
+def dice_detection_rpi(color_to_detect):
     picam = Picamera2()
     picam.preview_configuration.main.size = (640,480) #(1280, 720) Adjust this to the desired resolution
     picam.preview_configuration.main.format = "RGB888"
@@ -96,18 +96,9 @@ if __name__ == "__main__":
     picam.configure("preview")
     picam.start()
 
-    color_to_detect = "red"  # Change this to the desired color ("blue", "green", "yellow", "red")
     result = detect_dice(color_to_detect, picam)
     print(f"Number of pips detected on {color_to_detect} dice: {result}")
 
-    color_to_detect = "yellow"  # Change this to the desired color ("blue", "green", "yellow", "red")
-    result = detect_dice(color_to_detect, picam)
-    print(f"Number of pips detected on {color_to_detect} dice: {result}")
+if __name__ == "__main__":
+    dice_detection_rpi("red") # Change this to the desired color ("blue", "green", "yellow", "red")
 
-    color_to_detect = "green"  # Change this to the desired color ("blue", "green", "yellow", "red")
-    result = detect_dice(color_to_detect, picam)
-    print(f"Number of pips detected on {color_to_detect} dice: {result}")
-
-    color_to_detect = "blue"  # Change this to the desired color ("blue", "green", "yellow", "red")
-    result = detect_dice(color_to_detect, picam)
-    print(f"Number of pips detected on {color_to_detect} dice: {result}")

@@ -132,11 +132,11 @@ class ObjectTracker:
     def __del__(self):
         self.close_camera()
 
-if __name__ == "__main__":
+def tracking_main(color_to_track):
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--video", help="path to the optional video file")
     parser.add_argument("-m", "--memory", type=int, default=64, help="maximum memory size")
-    parser.add_argument("-t", "--target-color", type=str, default='red', help="color to track")
+    parser.add_argument("-t", "--target-color", type=str, default=color_to_track, help="color to track")
     parser.add_argument("-s", "--min-size", type=int, default=10, help="minimum size of the object to track")
     arguments = vars(parser.parse_args())
 
@@ -144,6 +144,8 @@ if __name__ == "__main__":
     tracker.track()
     tracker.close_camera()
 
+if __name__ == "__main__":
+    tracking_main(color_to_track="green") # Change this to the desired color ("blue", "green", "yellow", "red")
     
 
 

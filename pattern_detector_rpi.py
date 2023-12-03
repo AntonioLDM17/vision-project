@@ -107,6 +107,7 @@ def pattern_test(picam):
                 print(f"Number of pips detected on {color_to_detect} dice: {result}")
                 if result == 5:
                     print("You passed the test!")
+                    cv2.destroyAllWindows()
                 else:
                     print("You failed the test!")
                     print("Restarting test...")
