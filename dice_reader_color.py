@@ -91,6 +91,7 @@ def dice_detection(color_to_detect):
     # Example usage:
     result = detect_dice(color_to_detect)
     print(f"Number of pips detected on {color_to_detect} dice: {result}")
+    return None, result
 
 if __name__ == "__main__":
     dice_detection(color_to_detect="red") # Change this to the desired color ("blue", "green", "yellow", "red")

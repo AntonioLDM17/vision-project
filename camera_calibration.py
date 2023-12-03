@@ -1,4 +1,4 @@
-import cv2
+import cv2 #pip install opencv-python-headless
 import glob
 import copy
 import numpy as np
@@ -101,7 +101,3 @@ def calibration_camera():
 
 if __name__ == '__main__':
     calibration_camera()
-
-
-
-

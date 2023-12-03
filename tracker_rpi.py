@@ -13,10 +13,10 @@ class ObjectTracker:
         self.target_color = target_color
         self.min_size = min_size
         self.memory = deque(maxlen=self.memory_size)
+
         self.main = main
         self.picam = picam
         self.initialize_camera(main, picam)
-
 
     def initialize_camera(self, main, picam):
         if not self.video_source and main==False:
