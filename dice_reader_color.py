@@ -27,15 +27,15 @@ def detect_dice(color):
             lower_color = np.array([100, 50, 50])
             upper_color = np.array([130, 255, 255])
         elif color == "green":
-            lower_color = np.array([40, 50, 50])
-            upper_color = np.array([80, 255, 255])
+            lower_color = np.array([60, 70, 20])
+            upper_color = np.array([90, 255, 255])
         elif color == "yellow":
-            lower_color = np.array([20, 100, 100])
-            upper_color = np.array([40, 255, 255])
+            lower_color = np.array([15, 220, 100])
+            upper_color = np.array([25, 255, 255])
         elif color == "red":
-            lower_color1 = np.array([0, 100, 100])
+            lower_color1 = np.array([0, 70, 100])
             upper_color1 = np.array([10, 255, 255])
-            lower_color2 = np.array([160, 100, 100])
+            lower_color2 = np.array([160, 70, 100])
             upper_color2 = np.array([180, 255, 255])
             mask_color = cv2.inRange(hsv, lower_color1, upper_color1) | cv2.inRange(hsv, lower_color2, upper_color2)
         else:
@@ -65,6 +65,8 @@ def detect_dice(color):
         im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0, 0, 255),
                                               cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
+        #i2 = cv2.bitwise_and(im_with_keypoints, im_with_keypoints, mask=mask_color)
+        #cv2.imshow("Dice Reader", i2)
         cv2.imshow("Dice Reader", im_with_keypoints)
 
         if counter % 10 == 0:
@@ -94,4 +96,4 @@ def dice_detection(color_to_detect):
     return None, result
 
 if __name__ == "__main__":
-    dice_detection(color_to_detect="red") # Change this to the desired color ("blue", "green", "yellow", "red")
+    dice_detection(color_to_detect="green") # Change this to the desired color ("blue", "green", "yellow", "red")

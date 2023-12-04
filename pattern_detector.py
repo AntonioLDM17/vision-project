@@ -29,15 +29,15 @@ def detect_dice(color):
             lower_color = np.array([100, 50, 50])
             upper_color = np.array([130, 255, 255])
         elif color == "green":
-            lower_color = np.array([40, 50, 50])
-            upper_color = np.array([80, 255, 255])
+            lower_color = np.array([60, 70, 20])
+            upper_color = np.array([90, 255, 255])
         elif color == "yellow":
-            lower_color = np.array([20, 100, 100])
-            upper_color = np.array([40, 255, 255])
+            lower_color = np.array([15, 220, 100])
+            upper_color = np.array([25, 255, 255])
         elif color == "red":
-            lower_color1 = np.array([0, 100, 100])
+            lower_color1 = np.array([0, 70, 100])
             upper_color1 = np.array([10, 255, 255])
-            lower_color2 = np.array([160, 100, 100])
+            lower_color2 = np.array([160, 70, 100])
             upper_color2 = np.array([180, 255, 255])
             mask_color = cv2.inRange(hsv, lower_color1, upper_color1) | cv2.inRange(hsv, lower_color2, upper_color2)
         else:

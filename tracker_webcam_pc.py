@@ -49,18 +49,18 @@ class ObjectTracker:
             mask = cv2.inRange(image, lower_red_1, upper_red_1) + cv2.inRange(image, lower_red_2, upper_red_2)
 
         elif self.target_color == 'blue':
-            lower_blue = np.array([100, 100, 20])
-            upper_blue = np.array([120, 255, 255])
+            lower_blue = np.array([100, 50, 50])
+            upper_blue = np.array([130, 255, 255])
             mask = cv2.inRange(image, lower_blue, upper_blue)
 
         elif self.target_color == 'green':
-            lower_green = np.array([45, 100, 20])
-            upper_green = np.array([76, 255, 255])
+            lower_green = np.array([60, 70, 20])
+            upper_green = np.array([90, 255, 255])
             mask = cv2.inRange(image, lower_green, upper_green)
 
         elif self.target_color == 'yellow':
-            lower_yellow = np.array([20, 100, 20])
-            upper_yellow = np.array([40, 255, 255])
+            lower_yellow = np.array([15, 220, 100])
+            upper_yellow = np.array([25, 255, 255])
             mask = cv2.inRange(image, lower_yellow, upper_yellow)
         
         elif self.target_color == 'purple':
@@ -148,6 +148,14 @@ if __name__ == "__main__":
     tracking_main(color_to_track="green") # Change this to the desired color ("blue", "green", "yellow", "red")
     
 
+
+
+    
+    
+
+
+
+        
 
 
     

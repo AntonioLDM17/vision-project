@@ -76,19 +76,18 @@ def game_main(picam, RaspberryPi = False):
 
         # Update the position of the current player's piece each turn
         current_piece = pieces[current_player]
-        print(current_player + 1)
         players = {1: "red", 2: "yellow", 3: "green", 4: "blue"}
-        print(players[current_player + 1])
+        print(f'It is {players[current_player + 1]} turn')
         if RaspberryPi == False:
             p, steps = dc.dice_detection(players[current_player + 1])
         if RaspberryPi == True:
             picam, steps = dc.dice_detection(players[current_player + 1], picam)  # Adjust the range according to your movement logic
-        print(f'Player {current_player} rolled {steps}')
+        print(f'Player {players[current_player + 1]} rolled {steps}')
         current_piece.move_up(steps)  # Adjust the amount according to your movement logic
 
         # Check if the piece has reached the top row (victory condition)
         if current_piece.row == 0:
-            print(f"Player with color {current_piece.color} has won!")
+            print(f"Player with color {players[current_player + 1]} has won!")
             pygame.display.flip()
             pygame.time.delay(1000)
             pygame.quit()
@@ -110,4 +109,4 @@ def game_main(picam, RaspberryPi = False):
 
 if __name__ == "__main__":
     picam = None
-    game_main(picam, RaspberryPi =  True)
+    game_main(picam, RaspberryPi =  False)

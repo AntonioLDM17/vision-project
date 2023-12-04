@@ -28,11 +28,15 @@ def detect_dice(color, picam):
             lower_color = np.array([100, 50, 50])
             upper_color = np.array([130, 255, 255])
         elif color == "green":
-            lower_color = np.array([40, 50, 50])
-            upper_color = np.array([80, 255, 255])
+            lower_color = np.array([40, 50, 50])#Paper dice 
+            upper_color = np.array([80, 255, 255])#Paper dice 
+            # lower_color= np.array([75, 180, 20])
+            # upper_color = np.array([90, 255, 255])
         elif color == "yellow":
             lower_color = np.array([20, 100, 100])
             upper_color = np.array([40, 255, 255])
+            lower_color = np.array([20, 100, 100])
+            upper_color = np.array([30, 255, 255])
         elif color == "red":
             lower_color1 = np.array([0, 100, 100])
             upper_color1 = np.array([10, 255, 255])
@@ -61,12 +65,15 @@ def detect_dice(color, picam):
 
         detector = cv2.SimpleBlobDetector_create(params)
 
-        keypoints = detector.detect(result)
-
+        keypoints = detector.detect(result) 
+        
         im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0, 0, 255),
                                               cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-
+        
         cv2.imshow("Dice Reader", im_with_keypoints)
+        """i2=cv2.bitwise_and(im_with_keypoints,im_with_keypoints,mask=mask_color )
+        cv2.imshow("Dice Reader", i2)"""
+
 
         if counter % 10 == 0:
             reading = len(keypoints)
