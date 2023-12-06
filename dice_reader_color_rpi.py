@@ -3,14 +3,19 @@ import numpy as np
 from collections import deque
 from picamera2 import Picamera2
 
+# Function to detect the number of pips on a dice of a given color (blue, green, yellow, red)
 def detect_dice(color, picam):
+
+    # Define the parameters for the blob detector
     min_threshold = 10
     max_threshold = 200
     min_area = 100
     min_circularity = 0.3
     min_inertia_ratio = 0.5
 
-    counter = 0
+    # Initialize the variables for the detection algorithm
+    counter = 0 # Counter to handle FPS
+    # Lists to track the number of pips
     readings = deque([0, 0], maxlen=10)
     display = deque([0, 0], maxlen=10)
 
@@ -28,15 +33,11 @@ def detect_dice(color, picam):
             lower_color = np.array([100, 50, 50])
             upper_color = np.array([130, 255, 255])
         elif color == "green":
-            lower_color = np.array([40, 50, 50])#Paper dice 
-            upper_color = np.array([80, 255, 255])#Paper dice 
-            # lower_color= np.array([75, 180, 20])
-            # upper_color = np.array([90, 255, 255])
+            lower_color = np.array([40, 50, 50])
+            upper_color = np.array([80, 255, 255])
         elif color == "yellow":
             lower_color = np.array([20, 100, 100])
             upper_color = np.array([40, 255, 255])
-            lower_color = np.array([20, 100, 100])
-            upper_color = np.array([30, 255, 255])
         elif color == "red":
             lower_color1 = np.array([0, 100, 100])
             upper_color1 = np.array([10, 255, 255])
@@ -53,9 +54,10 @@ def detect_dice(color, picam):
         # Bitwise-AND the original image with the color mask
         result = cv2.bitwise_and(im, im, mask=mask_color)
 
-        params = cv2.SimpleBlobDetector_Params()
-        params.filterByArea = True
-        params.filterByCircularity = True
+        # Set up the detector with default parameters.
+        params = cv2.SimpleBlobDetector_Params() 
+        params.filterByArea = True 
+        params.filterByCircularity = True 
         params.filterByInertia = True
         params.minThreshold = min_threshold
         params.maxThreshold = max_threshold
@@ -63,25 +65,29 @@ def detect_dice(color, picam):
         params.minCircularity = min_circularity
         params.minInertiaRatio = min_inertia_ratio
 
+        # Create a detector with the parameters
         detector = cv2.SimpleBlobDetector_create(params)
 
-        keypoints = detector.detect(result) 
-        
+        # Detect blobs
+        keypoints = detector.detect(result)
+
+        # Draw blobs on our image as red circles
         im_with_keypoints = cv2.drawKeypoints(im, keypoints, np.array([]), (0, 0, 255),
                                               cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-        
+
+        # Show the resulting image with blobs detected
         cv2.imshow("Dice Reader", im_with_keypoints)
-        """i2=cv2.bitwise_and(im_with_keypoints,im_with_keypoints,mask=mask_color )
-        cv2.imshow("Dice Reader", i2)"""
 
+        # Update the display and readings queues and detect the number of pips 
+        if counter % 10 == 0: # Enter this block every 10 frames
+            reading = len(keypoints) # Counts keypoints (pips)
+            readings.append(reading) # Save this frame's reading
 
-        if counter % 10 == 0:
-            reading = len(keypoints)
-            readings.append(reading)
-
+            # If the 3 most recent readings are the same, we have a stable reading
             if readings[-1] == readings[-2] == readings[-3]:
                 display.append(readings[-1])
 
+            # If the last valid reading has changed, and it's not zero, print it
             if display[-1] != display[-2] and display[-1] != 0:
                 msg = f"{display[-1]}\n****"
                 print(msg)
@@ -96,6 +102,7 @@ def detect_dice(color, picam):
 
 # Example usage:
 def dice_detection(color_to_detect, picam):
+    #If picam is None, then we will create a new picamera object
     if picam is None:
         picam = Picamera2()
         picam.preview_configuration.main.size = (640,480) #(1280, 720) Adjust this to the desired resolution

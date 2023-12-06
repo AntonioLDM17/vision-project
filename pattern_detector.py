@@ -88,24 +88,39 @@ def detect_dice(color):
 
     cv2.destroyAllWindows()
 
+# Test the pattern detector
+# RED: 2 -> YELLOW: 3 -> GREEN: 4 -> BLUE: 5
 def pattern_test():
-    # Example usage:
-    color_to_detect = "red"  # Change this to the desired color ("blue", "green", "yellow", "red")
+
+    # RED: 2
+    color_to_detect = "red" 
     result = detect_dice(color_to_detect)
     print(f"Number of pips detected on {color_to_detect} dice: {result}")
+
     if result == 2:
-        color_to_detect = "yellow"  # Change this to the desired color ("blue", "green", "yellow", "red")
+
+        # YELLOW: 3
+        color_to_detect = "yellow"
         result = detect_dice(color_to_detect)
         print(f"Number of pips detected on {color_to_detect} dice: {result}")
-        if result == 6:
+
+        if result == 3:
+
+            # GREEN: 4
             color_to_detect = "green"
             result = detect_dice(color_to_detect)
             print(f"Number of pips detected on {color_to_detect} dice: {result}")
-            if result == 6:
+
+            if result == 4:
+
+                # BLUE: 5
                 color_to_detect = "blue"
                 result = detect_dice(color_to_detect)
                 print(f"Number of pips detected on {color_to_detect} dice: {result}")
+
                 if result == 5:
+                    
+                    # Test passed
                     print("You passed the test!")
                     cv2.destroyAllWindows()
                 else:

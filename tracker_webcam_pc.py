@@ -145,17 +145,9 @@ def tracking_main(color_to_track):
     tracker.close_camera()
 
 if __name__ == "__main__":
-    tracking_main(color_to_track="green") # Change this to the desired color ("blue", "green", "yellow", "red")
+    tracking_main(color_to_track="blue") # Change this to the desired color ("blue", "green", "yellow", "red")
     
 
-
-
-    
-    
-
-
-
-        
 
 
     

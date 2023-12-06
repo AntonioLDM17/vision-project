@@ -84,9 +84,9 @@ class ObjectTracker:
         center = None
 
         if len(contours) > 0:
-            largest_contour = max(contours, key=cv2.contourArea)
-            (x, y), radius = cv2.minEnclosingCircle(largest_contour)
-            moments = cv2.moments(largest_contour)
+            largest_contour = max(contours, key=cv2.contourArea) # Find the largest contour
+            (x, y), radius = cv2.minEnclosingCircle(largest_contour) # Find the minimum enclosing circle
+            moments = cv2.moments(largest_contour) # Calculate moments of the largest contour
             center = (int(moments["m10"] / moments["m00"]), int(moments["m01"] / moments["m00"]))
 
             if radius > self.min_size:

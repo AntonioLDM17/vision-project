@@ -98,11 +98,11 @@ def pattern_test_0(picam):
         color_to_detect = "yellow"  # Change this to the desired color ("blue", "green", "yellow", "red")
         result = detect_dice(color_to_detect, picam)
         print(f"Number of pips detected on {color_to_detect} dice: {result}")
-        if result == 6:
+        if result == 3:
             color_to_detect = "green"
             result = detect_dice(color_to_detect, picam)
             print(f"Number of pips detected on {color_to_detect} dice: {result}")
-            if result == 6:
+            if result == 4:
                 color_to_detect = "blue"
                 result = detect_dice(color_to_detect, picam)
                 print(f"Number of pips detected on {color_to_detect} dice: {result}")

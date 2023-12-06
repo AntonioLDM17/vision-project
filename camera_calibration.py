@@ -10,6 +10,7 @@ def load_images(filenames):
     return [imageio.v3.imread(filename) for filename in filenames]
 
 def get_chessboard_points(chessboard_shape, dx, dy):
+    # Create a list of coordinates for the chessboard corners
     points = [[i * dx, j * dy, 0] for i in range(chessboard_shape[0]) for j in range(chessboard_shape[1])]
     return np.array(points, dtype=np.float32)
 

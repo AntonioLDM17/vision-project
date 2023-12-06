@@ -3,7 +3,7 @@ import time
 import sys
 import subprocess
 
-RaspberryPi = True  # This variable will be used to determine if we are using a Raspberry Pi or a PC
+RaspberryPi = False  # This variable will be used to determine if we are using a Raspberry Pi or a PC
 
 if RaspberryPi == False:
     # Now we will import the files that contain the functions we will use
@@ -24,7 +24,6 @@ if RaspberryPi == True:
 # Now we will begin with camera calibration
 print("Camera calibration\n")
 time.sleep(1.0)
-
 if RaspberryPi == False:
     cc.calibration_camera()
 if RaspberryPi == True:
@@ -33,8 +32,8 @@ if RaspberryPi == True:
     subprocess.run(["pip", "install", "opencv-python-headless"])
     cc.calibration_camera()
     # After the calibration, we will reinstall the opencv-python package because it is needed for the rest of the program
-    subprocess.run(["pip", "uninstall", "opencv-python-headless"])
     subprocess.run(["pip", "install", "opencv-python"])
+
 
 print("\nCamera calibration completed\n")
 
